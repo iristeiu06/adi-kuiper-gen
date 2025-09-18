@@ -38,12 +38,12 @@
 install -m 644 "${BASH_SOURCE%%/run.sh}"/files/99-v3d.conf "${BUILD_DIR}/etc/X11/xorg.conf.d"
 
 # 1. packages:
-apt install v4l-utils qv4l2
 
-apt install -y python3-pip git python3-jinja2 libboost-dev libgnutls28-dev openssl libtiff-dev pybind11-dev \
-               qtbase5-dev libqt5core5a libqt5widgets meson cmake python3-yaml python3-ply libglib2.0-dev \
-               libgstreamer-plugins-base1.0-dev g++ ninja-build pkg-config libyaml-dev libdw-dev libunwind-dev \
-               libudev-dev libgstreamer1.0-dev libpython3-dev libevent-dev libdrm-dev libtiff-dev qt6-base-dev
+apt-get install -y v4l-utils qv4l2 python3-jinja2
+
+apt-get install -y g++ meson ninja-build pkg-config libyaml-dev python3-yaml python3-ply python3-jinja2 openssl libdw-dev libunwind-dev libudev-dev \
+                   libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libpython3-dev pybind11-dev \
+                   libevent-dev libdrm-dev libtiff-dev qt6-base-dev libboost-dev
 
 git clone https://github.com/raspberrypi/libcamera.git
 cd libcamera
@@ -51,7 +51,9 @@ meson setup build --buildtype=release -Dpipelines=rpi/vc4,rpi/pisp -Dipas=rpi/vc
 ninja -C build install
 
 # 2.python
-pip install pixutils pykms pyv4l2
+pip install  pixutils pykms pyv4l2
+cd pyv4l2
+pip install --break-system-packages .
 
 # 3. extra configs:
 
