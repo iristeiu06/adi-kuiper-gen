@@ -62,8 +62,8 @@ echo "python3-pip installed"
 yes | pip3 install --break-system-packages pix-utils v4l2py
 echo "pix-utils v4l2py installed"
 
-git clone https://github.com/raspberrypi/pykms.git /usr/local/src/pykms
-cd /usr/local/src/pykms
+git clone https://github.com/tomba/kmsxx.git /usr/local/src/kmsxx
+cd /usr/local/src/kmsxx
 meson setup build --buildtype=release
 ninja -C build install
 pip3 install --break-system-packages .
@@ -72,3 +72,4 @@ pip3 install --break-system-packages .
 
 # Set the name of the machine to 'analog-rpi-gmsl'
 echo "analog-rpi-gmsl" > /etc/hostname
+echo "127.0.1.1 analog-rpi-gmsl" >> /etc/hosts
