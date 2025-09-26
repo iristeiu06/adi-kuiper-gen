@@ -6,7 +6,7 @@
 # Copyright (c) 2024 Analog Devices, Inc.
 # Author: Larisa Radu <larisa.radu@analog.com>
 
-USE_ADI_REPO_RPI_BOOT=y
+# USE_ADI_REPO_RPI_BOOT=y
 
 # Variables used for custom downloads from SWDownloads or Artifactory for testing purposes
 SERVER="https://swdownloads.analog.com"
@@ -84,7 +84,7 @@ EOF
 		fi
 		rm $RPI_ARCHIVE_NAME
 		rm $RPI_MODULES_ARCHIVE_NAME
-		mv $RPI_PROPERTIES "${BUILD_DIR}"/boot
+		cp $RPI_PROPERTIES "${BUILD_DIR}"/boot
 		mv $RPI_PROPERTIES "${BUILD_DIR}"/boot/firmware
 	fi
 

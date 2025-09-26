@@ -35,7 +35,7 @@
 # Enable a service 
 # systemctl enable <service>.service
 
-cp stages/07.extra-tweaks/01.extra-scripts/gmsl-extra-script/files/99-v3d.conf /etc/X11/xorg.conf.d
+#cp stages/07.extra-tweaks/01.extra-scripts/gmsl-extra-script/files/99-v3d.conf /etc/X11/xorg.conf.d
 
 
 # 1. packages:
@@ -56,19 +56,17 @@ ninja -C build install
 
 # 2.python
 apt-get install -y python3-pip
-echo "python3-pip installed"
 
-# apt-get install python3-pix-utils python3-v4l2py
 yes | pip3 install --break-system-packages pix-utils v4l2py
-echo "pix-utils v4l2py installed"
-
-git clone https://github.com/raspberrypi/pykms.git /usr/local/src/pykms
-cd /usr/local/src/pykms
-meson setup build --buildtype=release
-ninja -C build install
-pip3 install --break-system-packages .
+yes | pip3 install --break-system-packages git+https://github.com/tomba/pykms.git
+yes | pip3 install --break-system-packages git+https://github.com/tomba/pixutils.git
+mkdir -p /home/analog/Workspace
+cd /home/analog/Workspace
+git clone https://github.com/tomba/pyv4l2.git
+yes | pip3 install --break-system-packages git+https://github.com/tomba/pyv4l2.git
 
 # 3. extra configs:
 
 # Set the name of the machine to 'analog-rpi-gmsl'
 echo "analog-rpi-gmsl" > /etc/hostname
+echo "127.0.1.1 analog-rpi-gmsl" >> /etc/hosts
