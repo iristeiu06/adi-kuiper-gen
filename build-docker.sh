@@ -37,11 +37,18 @@ docker build --build-arg BASE_IMAGE="${BASE_IMAGE}" -t ${IMAGE_NAME} .
 # -v: mounts volumes allowing the container to access files on the host or work with kernel modules
 # -e: sets environment variables
 # Inside the container kuiper-stages.sh will run building the Kuiper image
+BOOT_ARTIFACTS_ARGS=()
+if [ -n "${BOOT_ARTIFACTS_DIR}" ]; then
+	BOOT_ARTIFACTS_ARGS+=(-v "${BOOT_ARTIFACTS_DIR}:/boot-artifacts")
+	BOOT_ARTIFACTS_ARGS+=(-e "BOOT_ARTIFACTS_DIR=/boot-artifacts")
+fi
+
 docker run -t --privileged \
 			-v /dev:/dev \
 			-v /lib/modules:/lib/modules \
 			-v ./kuiper-volume:/kuiper-volume \
 			-e "DEBIAN_VERSION="${DEBIAN_VERSION}"" \
+			"${BOOT_ARTIFACTS_ARGS[@]}" \
 			--name ${CONTAINER_NAME} ${IMAGE_NAME} \
 			/bin/bash -o pipefail -c "bash kuiper-stages.sh"
 

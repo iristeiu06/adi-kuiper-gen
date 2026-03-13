@@ -26,7 +26,12 @@ if [ "${CONFIG_RPI_BOOT_FILES}" = y ]; then
 	echo "Download Raspberry Pi boot files"
 
 	# Check if RPI boot files should be downloaded from ADI repository, Artifactory or Software downloads
-	if [ "${USE_ADI_REPO_RPI_BOOT}" == y ]; then
+	if [ -n "${BOOT_ARTIFACTS_DIR}" ]; then
+		echo "Using pre-downloaded boot artifacts from ${BOOT_ARTIFACTS_DIR}"
+		tar -xf "${BOOT_ARTIFACTS_DIR}/${RPI_ARCHIVE_NAME}" -C "${BUILD_DIR}/boot/firmware" --no-same-owner
+		tar -xf "${BOOT_ARTIFACTS_DIR}/${RPI_MODULES_ARCHIVE_NAME}" -C "${BUILD_DIR}/lib/modules" --no-same-owner
+
+	elif [ "${USE_ADI_REPO_RPI_BOOT}" == y ]; then
 
 		# install package from adi-repo
 chroot "${BUILD_DIR}" << EOF
