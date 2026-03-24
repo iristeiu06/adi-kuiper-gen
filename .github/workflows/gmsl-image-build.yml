@@ -104,9 +104,10 @@ jobs:
           exit 0
         fi
 
-        # Extract the .img from the .zip
+        # Extract the .img from the .zip (kuiper-volume is owned by root)
         cd kuiper-volume
-        unzip -o *.zip
+        sudo unzip -o *.zip
+        sudo chown "$USER" *.img
         IMG_FILE=$(ls *.img | head -1)
         echo "Deploying image: $IMG_FILE"
 
