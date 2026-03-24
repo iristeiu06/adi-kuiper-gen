@@ -27,16 +27,19 @@ jobs:
         echo "Deploying image: $IMG_FILE"
 
         # Set up SSH key
+        echo "Copying ssh key"
         mkdir -p ~/.ssh
         echo "$PXE_SSH_KEY" > ~/.ssh/deploy_key
         chmod 600 ~/.ssh/deploy_key
         SSH_OPTS="-o StrictHostKeyChecking=no -i ~/.ssh/deploy_key"
 
         # SCP the image to the PXE server
+        echo "Copying image"
         scp $SSH_OPTS "$IMG_FILE" "${PXE_USER}@${PXE_HOST}:${PXE_DEPLOY_PATH}/kuiper_image.img"
 
         # SSH: update with new image
+        echo "Connect through ssh"
         ssh $SSH_OPTS "${PXE_USER}@${PXE_HOST}" \
-          "cd ${PXE_DEPLOY_PATH} && sudo ./run.sh setup"
+          "cd ${PXE_DEPLOY_PATH} && sudo ./run.sh setup -S ${PXE_PSW}"
 
         echo "Deployment complete"
