@@ -2,25 +2,11 @@ name: Test PXE Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      run_id:
-        description: 'Run ID to download the gmsl-kuiper-image artifact from'
-        required: true
-        type: string
 
 jobs:
   deploy:
     runs-on: self-hosted
     steps:
-    - name: Download Kuiper image artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: gmsl-kuiper-image
-        path: kuiper-volume/
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        repository: iristeiu06/adi-kuiper-gen
-        run-id: ${{ inputs.run_id }}
-
     - name: Deploy to PXE server
       env:
         PXE_SSH_KEY: ${{ secrets.PXE_SSH_KEY }}
@@ -51,6 +37,6 @@ jobs:
 
         # SSH: update with new image
         ssh $SSH_OPTS "${PXE_USER}@${PXE_HOST}" \
-          "cd ${PXE_DEPLOY_PATH} sudo ./run.sh setup"
+          "cd ${PXE_DEPLOY_PATH} && sudo ./run.sh setup"
 
         echo "Deployment complete"
