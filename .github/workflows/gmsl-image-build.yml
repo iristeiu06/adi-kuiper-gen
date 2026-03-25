@@ -120,8 +120,4 @@ jobs:
         # SCP the image to the PXE server
         scp $SSH_OPTS "$IMG_FILE" "${PXE_USER}@${PXE_HOST}:${PXE_DEPLOY_PATH}/kuiper_image.img"
 
-        # SSH: update with new image
-        ssh $SSH_OPTS "${PXE_USER}@${PXE_HOST}" \
-          "cd ${PXE_DEPLOY_PATH} sudo ./run.sh setup"
-
         echo "Deployment complete"
