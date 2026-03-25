@@ -39,7 +39,8 @@ jobs:
 
         # SSH: update with new image
         echo "Connect through ssh"
-        ssh $SSH_OPTS "${PXE_USER}@${PXE_HOST}" \
-          "cd ${PXE_DEPLOY_PATH} && sudo ./run.sh setup -S ${PXE_PSW}"
+        ssh $SSH_OPTS "${PXE_USER}@${PXE_HOST}" 
+        
+        #"cd ${PXE_DEPLOY_PATH} && sudo ./run.sh setup -S ${PXE_PSW}"
 
         echo "Deployment complete"
